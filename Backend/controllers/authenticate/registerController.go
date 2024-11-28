@@ -16,8 +16,8 @@ import (
 func Register(c *gin.Context) {
 	var body struct {
 		Name string `json:"name" binding:"required"`
-		Password string `json:"password" binding:"required"`
 		Email string `json:"email" binding:"required"`
+		Password string `json:"password" binding:"required"`
 	}
 
 	if err := c.Bind(&body); err != nil {
