@@ -7,9 +7,9 @@ import (
 
 type User struct {
 	ID       string `gorm:"type:char(36);default:uuid()"` 
-	Nama string `json:"Nama" binding:"required"`
-	Password string `json:"Password" binding:"required"`
-	Email string `json:"Email" binding:"required"`
+	Name string `json:"name" binding:"required"`
+	Password string `json:"password" binding:"required"`
+	Email string `json:"email" binding:"required"`
 }
 
 func (u *User) BeforeCreate(tx *gorm.DB) (err error) {

@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/hardytee1/FP_PBKK_Go/Backend/initializers"
 	"github.com/hardytee1/FP_PBKK_Go/Backend/middleware"
+	"github.com/hardytee1/FP_PBKK_Go/Backend/routers"
 )
 
 func init(){
@@ -17,5 +18,6 @@ func main() {
 	r.Use(
 		middleware.CORSMiddleware(),
 	)
+	routers.UserRouter(r)
 	r.Run()
 }
