@@ -13,4 +13,5 @@ func UserRouter(router *gin.Engine) {
 	// contoh buat yg akses cuman boleh role tertentu
 
 	userRoutes.POST("/register", controllers.Register)
+	userRoutes.POST("/logout", controllers.Logout)
 }
