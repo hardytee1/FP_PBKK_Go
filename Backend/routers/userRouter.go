@@ -2,6 +2,7 @@ package routers
 
 import (
 	"github.com/hardytee1/FP_PBKK_Go/Backend/controllers/authenticate"
+	"github.com/hardytee1/FP_PBKK_Go/Backend/middleware"
 
 	"github.com/gin-gonic/gin"
 )
@@ -15,4 +16,5 @@ func UserRouter(router *gin.Engine) {
 	userRoutes.POST("/register", controllers.Register)
 	userRoutes.POST("/login", controllers.Login)
 	userRoutes.POST("/logout", controllers.Logout)
+	userRoutes.GET("/me", middleware.RequireAuth, controllers.Me)
 }
