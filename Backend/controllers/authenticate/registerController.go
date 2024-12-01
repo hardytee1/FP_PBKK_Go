@@ -25,6 +25,14 @@ func Register(c *gin.Context) {
 		return
 	}
 
+	//check if email already exists
+	var user_check models.User
+	result_check_1 := initializers.DB.Where("email = ?", body.Email).First(&user_check)
+	if result_check_1.Error == nil {
+		utils.RespondError(c, http.StatusBadRequest, "Email already exists", nil)
+		return
+	}
+
 	hash, err := bcrypt.GenerateFromPassword([]byte(body.Password), 10)
 	if err != nil {
 		utils.RespondError(c, http.StatusInternalServerError, "Failed to hash password", map[string]interface{}{"error": err.Error()})

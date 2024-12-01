@@ -19,5 +19,6 @@ func main() {
 		middleware.CORSMiddleware(),
 	)
 	routers.UserRouter(r)
+	routers.BlogRouter(r)
 	r.Run()
 }
