@@ -14,4 +14,5 @@ func BlogRouter(router *gin.Engine) {
 	blogRoutes.GET("/blogs", middleware.RequireAuth, controllers.GetAllBlog)
 	blogRoutes.GET("/blog", middleware.RequireAuth, controllers.GetUserBlogs)
 	blogRoutes.PUT("/blog/:id", middleware.RequireAuth, controllers.UpdateBlog)
+	blogRoutes.DELETE("/blog/:id", middleware.RequireAuth, controllers.DeleteBlog)
 }
