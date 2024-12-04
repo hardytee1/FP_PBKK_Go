@@ -1,5 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import CreateBlogForm from './CreateBlog';
+import UserBlog from './GetUserBlog';
 
 const Dashboard: React.FC = () => {
   const router = useRouter();
@@ -49,10 +51,11 @@ const Dashboard: React.FC = () => {
       <h1>Welcome to the Dashboard</h1>
       <p>This is your private space where you can manage your account and features.</p>
       <button onClick={handleLogout}>Logout</button>
+      <div className="UploadBlog">
+        <CreateBlogForm />
+      </div>
       <div className="widgets">
-        <div className="widget">Widget 1</div>
-        <div className="widget">Widget 2</div>
-        <div className="widget">Widget 3</div>
+        <UserBlog />
       </div>
     </div>
   );

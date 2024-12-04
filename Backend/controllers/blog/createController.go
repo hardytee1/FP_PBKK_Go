@@ -17,7 +17,7 @@ func CreateBlog(c *gin.Context) {
 	}
 
 	if err := c.Bind(&body); err != nil {
-		utils.RespondError(c, http.StatusBadRequest, "Failed to register", map[string]interface{}{"error": err.Error()})
+		utils.RespondError(c, http.StatusBadRequest, "Failed to create blog", map[string]interface{}{"error": err.Error()})
 		return
 	}
 

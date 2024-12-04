@@ -42,7 +42,7 @@ const Login: React.FC = () => {
           required
         />
         <button type="submit">Login</button>
-      </form>
+      </form> 
       {error && <p style={{ color: 'red' }}>{error}</p>}
     </div>
   );

@@ -15,4 +15,6 @@ func BlogRouter(router *gin.Engine) {
 	blogRoutes.GET("/blog", middleware.RequireAuth, controllers.GetUserBlogs)
 	blogRoutes.PUT("/blog/:id", middleware.RequireAuth, controllers.UpdateBlog)
 	blogRoutes.DELETE("/blog/:id", middleware.RequireAuth, controllers.DeleteBlog)
+	blogRoutes.POST("/upload", middleware.RequireAuth, controllers.UploadImage)
+	blogRoutes.Static("/uploads", "./uploads") // Mengizinkan akses ke folder uploads
 }
