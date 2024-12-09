@@ -7,6 +7,7 @@ const Dashboard: React.FC = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [userName, setUserName] = useState<string | null>(null); // State to store user's name
+  const [userPicture, setUserPicture] = useState<string | null>(null); // State to store user's picture URL
 
   const handleLogout = async () => {
     try {
@@ -38,6 +39,7 @@ const Dashboard: React.FC = () => {
         } else {
           const data = await response.json();
           setUserName(data.data.name); // Set the user's name
+          setUserPicture(data.data.picture); // Set the user's picture URL
           setLoading(false); // User is authenticated
         }
       } catch (error) {
@@ -55,7 +57,22 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="dashboard">
-      <h1>Welcome back, {userName || 'User'}!</h1> {/* Display the personalized greeting */}
+      <div className="welcome-section">
+        {userPicture && (
+          <img
+          src={`http://localhost:8080/api/blog/${userPicture}`}
+            alt={`${userName || 'User'}'s profile`}
+            className="user-picture"
+            style={{
+              width: '100px',
+              height: '100px',
+              borderRadius: '50%',
+              objectFit: 'cover',
+            }}
+          />
+        )}
+        <h1>Welcome back, {userName || 'User'}!</h1>
+      </div>
       <p>This is your private space where you can manage your account and features.</p>
       <button onClick={handleLogout}>Logout</button>
       <button onClick={handleManageAccount}>Manage Account</button>

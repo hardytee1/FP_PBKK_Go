@@ -186,7 +186,7 @@ const Account: React.FC = () => {
           </label>
           <input
             type="file"
-            accept="image/*"
+            accept=".jpg,.jpeg,.png,.gif"
             onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)}
             style={{ marginBottom: '20px' }}
           />
