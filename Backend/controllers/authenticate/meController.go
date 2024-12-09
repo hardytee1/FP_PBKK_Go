@@ -32,6 +32,7 @@ func Me(c *gin.Context) {
 		ID       string    `json:"id"`
 		Name string `json:"name"`
 		Email    string `json:"email"`
+		Picture  string `json:"picture"`
 		Token    string `json:"token"`
 	}
 
@@ -39,6 +40,7 @@ func Me(c *gin.Context) {
 		ID:       usr.ID,
 		Name: usr.Name,
 		Email:    usr.Email,
+		Picture:  usr.Picture,
 		Token:	  tokenString,
 	}
 

@@ -4,8 +4,9 @@ import { useEffect, useState } from 'react';
 const Account: React.FC = () => {
   const router = useRouter();
   const [notification, setNotification] = useState<{ type: string; message: string } | null>(null);
-  const [user, setUser] = useState<{ name: string; email: string } | null>(null);
-  const [newName, setNewName] = useState(''); // State to hold the new name
+  const [user, setUser] = useState<{ name: string; email: string; picture: string | null } | null>(null);
+  const [newName, setNewName] = useState('');
+  const [image, setImage] = useState<File | null>(null);
 
   useEffect(() => {
     const fetchUserDetails = async () => {
@@ -32,6 +33,34 @@ const Account: React.FC = () => {
     fetchUserDetails();
   }, []);
 
+  const handleUpdateProfile = async () => {
+    const formData = new FormData();
+    formData.append('name', newName);
+    if (image) {
+      formData.append('picture', image);
+    }
+
+    try {
+      const response = await fetch('http://localhost:8080/api/user/update', {
+        method: 'PUT',
+        credentials: 'include',
+        body: formData,
+      });
+
+      if (response.ok) {
+        const updatedUser = await response.json();
+        setNotification({ type: 'success', message: 'Profile updated successfully.' });
+        setUser(updatedUser.data);
+      } else {
+        const errorData = await response.json();
+        setNotification({ type: 'error', message: `Failed to update profile: ${errorData.message}` });
+      }
+    } catch (error) {
+      console.error('Update profile failed:', error);
+      setNotification({ type: 'error', message: 'Failed to update profile. Please try again later.' });
+    }
+  };
+
   const handleDeleteAccount = async () => {
     try {
       const response = await fetch('http://localhost:8080/api/user/delete', {
@@ -41,9 +70,7 @@ const Account: React.FC = () => {
 
       if (response.ok) {
         setNotification({ type: 'success', message: 'Account deleted successfully.' });
-        setTimeout(() => {
-          router.push('/register');
-        }, 2000); // Redirect after 2 seconds
+        setTimeout(() => router.push('/register'), 2000); // Redirect after 2 seconds
       } else {
         const errorData = await response.json();
         setNotification({ type: 'error', message: `Failed to delete account: ${errorData.message}` });
@@ -51,30 +78,6 @@ const Account: React.FC = () => {
     } catch (error) {
       console.error('Delete account failed:', error);
       setNotification({ type: 'error', message: 'Failed to delete account. Please try again later.' });
-    }
-  };
-
-  const handleUpdateName = async () => {
-    try {
-      const response = await fetch('http://localhost:8080/api/user/update', {
-        method: 'PUT',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name: newName }),
-      });
-
-      if (response.ok) {
-        setNotification({ type: 'success', message: 'Name updated successfully.' });
-        if (user) setUser({ ...user, name: newName }); // Update the name in the state
-      } else {
-        const errorData = await response.json();
-        setNotification({ type: 'error', message: `Failed to update name: ${errorData.message}` });
-      }
-    } catch (error) {
-      console.error('Update name failed:', error);
-      setNotification({ type: 'error', message: 'Failed to update name. Please try again later.' });
     }
   };
 
@@ -131,13 +134,20 @@ const Account: React.FC = () => {
               boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
             }}
           >
+            {user.picture && (
+              <img
+              src={`http://localhost:8080/api/blog/${user.picture}`}
+                alt="Profile"
+                style={{ width: '100px', height: '100px', borderRadius: '50%', marginBottom: '10px' }}
+              />
+            )}
             <p style={{ margin: '10px 0', fontSize: '16px' }}><strong>Name:</strong> {user.name}</p>
             <p style={{ margin: '10px 0', fontSize: '16px' }}><strong>Email:</strong> {user.email}</p>
           </div>
         ) : (
           <p>Loading user details...</p>
         )}
-        <div style={{ marginBottom: '30px' }}>
+        <div style={{ marginBottom: '20px' }}>
           <label
             style={{
               display: 'block',
@@ -162,22 +172,41 @@ const Account: React.FC = () => {
               fontSize: '16px',
             }}
           />
-          <button
-            onClick={handleUpdateName}
+        </div>
+        <div style={{ marginBottom: '30px' }}>
+          <label
             style={{
-              color: 'white',
-              backgroundColor: '#28a745',
-              border: 'none',
-              padding: '12px 20px',
-              cursor: 'pointer',
+              display: 'block',
+              marginBottom: '10px',
               fontSize: '16px',
-              borderRadius: '5px',
-              width: '100%',
+              color: '#555',
             }}
           >
-            Update Name
-          </button>
+            Upload New Picture
+          </label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)}
+            style={{ marginBottom: '20px' }}
+          />
         </div>
+        <button
+          onClick={handleUpdateProfile}
+          style={{
+            color: 'white',
+            backgroundColor: '#28a745',
+            border: 'none',
+            padding: '12px 20px',
+            cursor: 'pointer',
+            fontSize: '16px',
+            borderRadius: '5px',
+            width: '100%',
+            marginBottom: '20px',
+          }}
+        >
+          Update Profile
+        </button>
         <button
           onClick={handleDeleteAccount}
           style={{

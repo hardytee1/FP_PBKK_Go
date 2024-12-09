@@ -6,6 +6,7 @@ import UserBlog from './GetUserBlog';
 const Dashboard: React.FC = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
+  const [userName, setUserName] = useState<string | null>(null); // State to store user's name
 
   const handleLogout = async () => {
     try {
@@ -21,7 +22,7 @@ const Dashboard: React.FC = () => {
 
   const handleManageAccount = () => {
     router.push('/account');
-  }
+  };
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -35,6 +36,8 @@ const Dashboard: React.FC = () => {
           // Redirect to login if not authenticated
           router.push('/login');
         } else {
+          const data = await response.json();
+          setUserName(data.data.name); // Set the user's name
           setLoading(false); // User is authenticated
         }
       } catch (error) {
@@ -52,7 +55,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="dashboard">
-      <h1>Welcome to the Dashboard</h1>
+      <h1>Welcome back, {userName || 'User'}!</h1> {/* Display the personalized greeting */}
       <p>This is your private space where you can manage your account and features.</p>
       <button onClick={handleLogout}>Logout</button>
       <button onClick={handleManageAccount}>Manage Account</button>
