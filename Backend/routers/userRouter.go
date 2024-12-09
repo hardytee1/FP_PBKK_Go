@@ -17,4 +17,5 @@ func UserRouter(router *gin.Engine) {
 	userRoutes.POST("/login", controllers.Login)
 	userRoutes.POST("/logout", controllers.Logout)
 	userRoutes.GET("/me", middleware.RequireAuth, controllers.Me)
+	userRoutes.DELETE("/delete", middleware.RequireAuth, controllers.DeleteCurrentUser)
 }

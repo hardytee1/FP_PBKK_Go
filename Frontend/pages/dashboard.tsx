@@ -19,6 +19,10 @@ const Dashboard: React.FC = () => {
     }
   };
 
+  const handleManageAccount = () => {
+    router.push('/account');
+  }
+
   useEffect(() => {
     const checkAuth = async () => {
       try {
@@ -51,6 +55,7 @@ const Dashboard: React.FC = () => {
       <h1>Welcome to the Dashboard</h1>
       <p>This is your private space where you can manage your account and features.</p>
       <button onClick={handleLogout}>Logout</button>
+      <button onClick={handleManageAccount}>Manage Account</button>
       <div className="UploadBlog">
         <CreateBlogForm />
       </div>

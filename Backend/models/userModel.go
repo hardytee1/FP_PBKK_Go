@@ -10,7 +10,7 @@ type User struct {
 	Name string `json:"name" binding:"required"`
 	Password string `json:"password" binding:"required"`
 	Email string `json:"email" binding:"required"`
-	Blogs []Blog `gorm:"foreignKey:UserID"`
+	Blogs []Blog `gorm:"foreignKey:UserID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }
 
 func (u *User) BeforeCreate(tx *gorm.DB) (err error) {
