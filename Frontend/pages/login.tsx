@@ -14,7 +14,7 @@ const Login: React.FC = () => {
       const response = await login({ email, password });
       if (response.success) {
         console.log('Redirecting to dashboard...');
-        router.push('/dashboard');
+        router.push('/profilePage');
       } else {
         setError(response.message);
       }
@@ -80,6 +80,7 @@ const Login: React.FC = () => {
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              autoComplete="current-password"
               required
               style={{
                 width: '100%',

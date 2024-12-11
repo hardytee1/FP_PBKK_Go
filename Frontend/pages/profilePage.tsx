@@ -1,13 +1,78 @@
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import DashboardBlog from './mainDashboard';
+import { useEffect, useState, useRef, FormEvent, ChangeEvent } from 'react';
+import UserBlog from './GetUserBlog';
+import { Button, Checkbox, FileInput, Label, Modal, TextInput } from "flowbite-react";
 
-const dashboard: React.FC = () => {
+const profilePage: React.FC = () => {
 
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [userName, setUserName] = useState<string | null>(null); // State to store user's name
-  const [userPicture, setUserPicture] = useState<string | null>(null); // State to store user's picture URL
+  const [userPicture, setUserPicture] = useState<string | null>(null);
+  const [image, setImage] = useState<File | null>(null);
+  const [caption, setContent] = useState<string>('');
+
+  const [openModal, setOpenModal] = useState(false);
+  const emailInputRef = useRef<HTMLInputElement>(null);
+
+   // State to store user's picture URL
+
+   const handleBlog = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    // Upload Image (if exists)
+    let imageUrl = '';  
+    if (image) {
+      const formData = new FormData();
+      formData.append('image', image);
+    
+      const uploadResponse = await fetch('http://localhost:8080/api/blog/upload', {
+        method: 'POST',
+        body: formData,
+        credentials: 'include',
+      });
+    
+      // Debug response
+      const responseText = await uploadResponse.text(); // Baca respons sebagai teks
+      console.log('Server Response:', responseText); // Log respons untuk melihat apa yang dikirim backend
+    
+      try {
+        const uploadData = JSON.parse(responseText); // Parsing manual JSON
+        imageUrl = uploadData.content;
+      } catch (error) {
+        console.error('Error parsing JSON:', error, responseText);
+        alert('Failed to upload image.');
+        return;
+      }
+    }
+
+    // Create Post
+    const postResponse = await fetch('http://localhost:8080/api/blog/blog', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        caption,
+        content: imageUrl,
+      }),
+      credentials: 'include', // Sertakan cookie Authorization
+    });
+
+    if (postResponse.ok) {
+      alert('Post created successfully!');
+      router.reload();
+    } else {
+      alert('Failed to create post.');
+    } 
+  };
+
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setImage(e.target.files[0]);
+    }
+  };
+
 
   const handleLogout = async () => {
     try {
@@ -125,16 +190,51 @@ const dashboard: React.FC = () => {
         <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
             <div className="flex items-center justify-center h-24 mb-4 rounded bg-gray-50 dark:bg-gray-800">
               <p className="text-2xl text-gray-400 dark:text-gray-500">         
-                  GramInst
+                  Your Post
               </p>
             </div>
         </div>
         <div className="blog">
-          <DashboardBlog />
+          <UserBlog />
         </div>
+        <footer className="bg-white rounded-lg shadow m-4 dark:bg-gray-800">
+          <div className="w-full mx-auto max-w-screen-xl p-4 flex justify-center items-center">
+          <button className="text-sm text-gray-500 sm:text-center dark:text-gray-400" onClick={() => setOpenModal(true)}>Upload Photo</button>
+            <Modal show={openModal} size="md" popup onClose={() => setOpenModal(false)} initialFocus={emailInputRef}>
+              <Modal.Header />
+              <Modal.Body>
+                <form onSubmit={handleBlog}>
+                <div className="space-y-6">
+                  <h3 className="text-xl font-medium text-gray-900 dark:text-white">Post GramInst</h3>
+                  <div>
+                    <div className="mb-2 block">
+                      <Label htmlFor="image" value="Image" />
+                    </div>
+                    <FileInput id="image" onChange={handleImageChange} placeholder="Upload Images" required />
+                  </div>
+                  <div>
+                    <div className="mb-2 block">
+                      <Label htmlFor="Description" value="Description / Caption" />
+                    </div>
+                      <TextInput
+                        id="caption"
+                        value={caption}
+                        onChange={(e) => setContent(e.target.value)}
+                        required
+                      />
+                  </div>
+                  <div className="w-full">
+                    <Button type='submit'>Upload</Button>
+                  </div>
+                </div>
+                </form>
+              </Modal.Body>
+            </Modal>
+          </div>
+        </footer>
       </div>
     </div>
   );
 };
 
-export default dashboard;
+export default profilePage;

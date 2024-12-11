@@ -1,26 +1,10 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { useRouter } from 'next/router';
 
-const CreateBlogForm: React.FC = () => {
+const createBlog: React.FC = () => {
   const [caption, setContent] = useState<string>('');
   const [image, setImage] = useState<File | null>(null);
   const router = useRouter();
-//   const router = useRouter();
-
-//   const checkAuth = async () => {
-//     const response = await fetch('http://localhost:8080/api/user/me', {
-//       method: 'GET',
-//       credentials: 'include', // Sertakan cookie Authorization
-//     });
-  
-//     if (!response.ok) {
-//       alert('You need to log in first!');
-//       router.push('/login');
-//       return false;
-//     }
-  
-//     return true;
-//   };
 
   const handleBlog = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -97,10 +81,9 @@ const CreateBlogForm: React.FC = () => {
           onChange={handleImageChange}
         />
       </div>
-      <button className="form-button" type="submit">Create Post</button>
+      <button className="border-solid border-2 border-sky-500" type="submit">Create Post</button>
     </form>
   );
 };
 
-
-export default CreateBlogForm;
+export default createBlog;

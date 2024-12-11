@@ -5,8 +5,8 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/hardytee1/FP_PBKK_Go/Backend/models"
 	"github.com/hardytee1/FP_PBKK_Go/Backend/initializers"
+	"github.com/hardytee1/FP_PBKK_Go/Backend/models"
 	"github.com/hardytee1/FP_PBKK_Go/Backend/utils"
 )
 
@@ -20,11 +20,12 @@ func GetAllBlog(c *gin.Context) {
 	}
 
 	type ResponseData struct {
-		ID        uint    `json:"id"`
+		ID        uint      `json:"id"`
+		Picture   string    `json:"picture"`
 		Content   string    `json:"content"`
 		Caption   string    `json:"caption"`
 		UserID    string    `json:"user_id"`
-		UserName string    `json:"user_name"`
+		Name      string    `json:"user_name"`
 		CreatedAt time.Time `json:"created_at"`
 		UpdatedAt time.Time `json:"updated_at"`
 	}
@@ -42,9 +43,10 @@ func GetAllBlog(c *gin.Context) {
 			Content:   blog.Content,
 			Caption:   blog.Caption,
 			UserID:    blog.UserID,
-			UserName:  usr.Name,
+			Name:      usr.Name,
 			CreatedAt: blog.CreatedAt,
 			UpdatedAt: blog.UpdatedAt,
+			Picture:   usr.Picture,
 		})
 	}
 

@@ -28,7 +28,7 @@ func UploadImage(c *gin.Context) {
 	}
 
 	// Create the upload path
-	uploadPath := "./uploads/"
+	uploadPath := "./uploads/blogs/"
 	if _, err := os.Stat(uploadPath); os.IsNotExist(err) {
 		err := os.MkdirAll(uploadPath, os.ModePerm)
 		if err != nil {
@@ -48,13 +48,12 @@ func UploadImage(c *gin.Context) {
 	}
 
 	// Return the image URL in the response
-	imageURL := fmt.Sprintf("http://localhost:8080/api/blog/uploads/%s", filename)
 
 	// Optionally, you can store the image URL in the database associated with the blog
 
 	// For now, we'll just return the image URL in the response.
 
-	c.JSON(http.StatusOK, gin.H{"content": imageURL})
+	c.JSON(http.StatusOK, gin.H{"content": filePath})
 }
 
 func contains(slice []string, str string) bool {

@@ -1,13 +1,12 @@
 package controllers
 
 import (
-	"net/http"
+	"fmt"
 	"mime/multipart"
+	"net/http"
 	"os"
 	"path/filepath"
-	"fmt"
 	"time"
-
 
 	"github.com/gin-gonic/gin"
 	"github.com/hardytee1/FP_PBKK_Go/Backend/initializers"
@@ -17,7 +16,7 @@ import (
 
 func Update(c *gin.Context) {
 	var body struct {
-		Name    string `json:"name" form:"name"`
+		Name    string                `json:"name" form:"name"`
 		Picture *multipart.FileHeader `form:"picture"`
 	}
 	if err := c.Bind(&body); err != nil {
@@ -31,7 +30,7 @@ func Update(c *gin.Context) {
 		return
 	}
 
-	usr, ok := user.(models.User) 
+	usr, ok := user.(models.User)
 	if !ok {
 		utils.RespondError(c, http.StatusUnauthorized, "Invalid user type in context", nil)
 		return
@@ -51,7 +50,7 @@ func Update(c *gin.Context) {
 		}
 
 		uuidStr := usr.ID
-		ext := filepath.Ext(body.Picture.Filename) 
+		ext := filepath.Ext(body.Picture.Filename)
 		filename := fmt.Sprintf("%s_%d%s", uuidStr, time.Now().Unix(), ext)
 		savePath := "uploads/user/" + filename
 

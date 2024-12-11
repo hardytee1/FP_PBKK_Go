@@ -1,7 +1,7 @@
 package routers
 
 import (
-	"github.com/hardytee1/FP_PBKK_Go/Backend/controllers/blog"
+	controllers "github.com/hardytee1/FP_PBKK_Go/Backend/controllers/blog"
 	"github.com/hardytee1/FP_PBKK_Go/Backend/middleware"
 
 	"github.com/gin-gonic/gin"
@@ -10,11 +10,12 @@ import (
 func BlogRouter(router *gin.Engine) {
 	blogRoutes := router.Group("/api/blog")
 
-	blogRoutes.POST("/blog", middleware.RequireAuth, controllers.CreateBlog) 
-	blogRoutes.GET("/blogs", middleware.RequireAuth, controllers.GetAllBlog)
+	blogRoutes.POST("/blog", middleware.RequireAuth, controllers.CreateBlog)
+	blogRoutes.GET("/blogs", controllers.GetAllBlog)
 	blogRoutes.GET("/blog", middleware.RequireAuth, controllers.GetUserBlogs)
-	blogRoutes.PUT("/blog/:id", middleware.RequireAuth, controllers.UpdateBlog)
 	blogRoutes.DELETE("/blog/:id", middleware.RequireAuth, controllers.DeleteBlog)
 	blogRoutes.POST("/upload", middleware.RequireAuth, controllers.UploadImage)
-	blogRoutes.Static("/uploads", "./uploads") // Mengizinkan akses ke folder uploads
+	blogRoutes.Static("/uploads", "./uploads")
+	blogRoutes.PUT("/update/:id", middleware.RequireAuth, controllers.UpdateBlog)
+	blogRoutes.POST("/update/:id", middleware.RequireAuth, controllers.UpdateBlog) // Mengizinkan akses ke folder uploads
 }
