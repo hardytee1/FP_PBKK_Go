@@ -3,7 +3,7 @@ Plan : make a web-like instagram
 Frontend : NextJS
 
 To run the project use
-	npm run dev
+	npm i && npm run dev
 
 Backend : Go
 
