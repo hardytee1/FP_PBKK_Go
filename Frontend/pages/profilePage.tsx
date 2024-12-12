@@ -3,6 +3,7 @@ import { useEffect, useState, useRef, FormEvent, ChangeEvent } from 'react';
 import UserBlog from './GetUserBlog';
 import { Button, Checkbox, FileInput, Label, Modal, TextInput } from "flowbite-react";
 
+
 const profilePage: React.FC = () => {
 
   const router = useRouter();
@@ -158,7 +159,7 @@ const profilePage: React.FC = () => {
               </li>
               <li>
                   <a href="/profilePage" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                    <svg className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill-curent="currentColor" viewBox="0 0 20 18">
+                    <svg className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill-curent="none" viewBox="0 0 20 18">
                         <path stroke="currentColor" d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z"/>
                     </svg>
                     <span className="flex-1 ms-3 whitespace-nowrap">Profile</span>
@@ -174,12 +175,50 @@ const profilePage: React.FC = () => {
               </li>
               <li>
                   <a href="/login" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                    <svg className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill-current="currentColor" viewBox="0 0 20 20">
+                    <svg className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill-current="none" viewBox="0 0 20 20">
                         <path stroke="currentColor" d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.96 2.96 0 0 0 .13 5H5Z"/>
                         <path stroke="currentColor" d="M6.737 11.061a2.961 2.961 0 0 1 .81-1.515l6.117-6.116A4.839 4.839 0 0 1 16 2.141V2a1.97 1.97 0 0 0-1.933-2H7v5a2 2 0 0 1-2 2H0v11a1.969 1.969 0 0 0 1.933 2h12.134A1.97 1.97 0 0 0 16 18v-3.093l-1.546 1.546c-.413.413-.94.695-1.513.81l-3.4.679a2.947 2.947 0 0 1-1.85-.227 2.96 2.96 0 0 1-1.635-3.257l.681-3.397Z"/>
                         <path stroke="currentColor" d="M8.961 16a.93.93 0 0 0 .189-.019l3.4-.679a.961.961 0 0 0 .49-.263l6.118-6.117a2.884 2.884 0 0 0-4.079-4.078l-6.117 6.117a.96.96 0 0 0-.263.491l-.679 3.4A.961.961 0 0 0 8.961 16Zm7.477-9.8a.958.958 0 0 1 .68-.281.961.961 0 0 1 .682 1.644l-.315.315-1.36-1.36.313-.318Zm-5.911 5.911 4.236-4.236 1.359 1.359-4.236 4.237-1.7.339.341-1.699Z"/>
                     </svg>
                     <span className="flex-1 ms-3 whitespace-nowrap" onClick={handleLogout}>Logout</span>
+                  </a>
+              </li>
+              <li>
+                  <a className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                  <svg className="w-6 h-6 text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1v3m5-3v3m5-3v3M1 7h18M5 11h10M2 3h16a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/>
+                  </svg>
+                    <span className="flex-1 ms-3 whitespace-nowrap" onClick={() => setOpenModal(true)}>Upload Photo</span>
+                    <Modal show={openModal} size="md" popup onClose={() => setOpenModal(false)} initialFocus={emailInputRef}>
+                      <Modal.Header />
+                      <Modal.Body>
+                        <form onSubmit={handleBlog}>
+                        <div className="space-y-6">
+                          <h3 className="text-xl font-medium text-gray-900 dark:text-white">Post GramInst</h3>
+                          <div>
+                            <div className="mb-2 block">
+                              <Label htmlFor="image" value="Image" />
+                            </div>
+                            <FileInput id="image" onChange={handleImageChange} placeholder="Upload Images" required />
+                          </div>
+                          <div>
+                            <div className="mb-2 block">
+                              <Label htmlFor="Description" value="Description / Caption" />
+                            </div>
+                              <TextInput
+                                id="caption"
+                                value={caption}
+                                onChange={(e) => setContent(e.target.value)}
+                                required
+                              />
+                          </div>
+                          <div className="w-full">
+                            <Button type='submit'>Upload</Button>
+                          </div>
+                        </div>
+                        </form>
+                      </Modal.Body>
+                    </Modal>
                   </a>
               </li>
             </ul>
@@ -189,7 +228,7 @@ const profilePage: React.FC = () => {
       <div className="p-4 sm:ml-64">
         <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
             <div className="flex items-center justify-center h-24 mb-4 rounded bg-gray-50 dark:bg-gray-800">
-              <p className="text-2xl text-gray-400 dark:text-gray-500">         
+              <p className="text-2xl text-white">         
                   Your Post
               </p>
             </div>
@@ -197,41 +236,6 @@ const profilePage: React.FC = () => {
         <div className="blog">
           <UserBlog />
         </div>
-        <footer className="bg-white rounded-lg shadow m-4 dark:bg-gray-800">
-          <div className="w-full mx-auto max-w-screen-xl p-4 flex justify-center items-center">
-          <button className="text-sm text-gray-500 sm:text-center dark:text-gray-400" onClick={() => setOpenModal(true)}>Upload Photo</button>
-            <Modal show={openModal} size="md" popup onClose={() => setOpenModal(false)} initialFocus={emailInputRef}>
-              <Modal.Header />
-              <Modal.Body>
-                <form onSubmit={handleBlog}>
-                <div className="space-y-6">
-                  <h3 className="text-xl font-medium text-gray-900 dark:text-white">Post GramInst</h3>
-                  <div>
-                    <div className="mb-2 block">
-                      <Label htmlFor="image" value="Image" />
-                    </div>
-                    <FileInput id="image" onChange={handleImageChange} placeholder="Upload Images" required />
-                  </div>
-                  <div>
-                    <div className="mb-2 block">
-                      <Label htmlFor="Description" value="Description / Caption" />
-                    </div>
-                      <TextInput
-                        id="caption"
-                        value={caption}
-                        onChange={(e) => setContent(e.target.value)}
-                        required
-                      />
-                  </div>
-                  <div className="w-full">
-                    <Button type='submit'>Upload</Button>
-                  </div>
-                </div>
-                </form>
-              </Modal.Body>
-            </Modal>
-          </div>
-        </footer>
       </div>
     </div>
   );
