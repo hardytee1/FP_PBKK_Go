@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Button, FileInput, Label, Modal, Textarea } from "flowbite-react";
 import './globals.css';
+import Router from 'next/router';
 
 interface Blog {
   id: string;
@@ -122,6 +123,7 @@ const UserBlog: React.FC = () => {
     } catch (error) {
       console.error("Edit blog failed:", error);
     }
+    Router.reload();
   };
   
 

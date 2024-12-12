@@ -44,31 +44,30 @@ const DashboardBlog: React.FC = () => {
               <div key={blog.id} className="post-item">
                 {blog.content && (
                   <figure className="max-w-full">
-                    <div className="flex items-center py-5">
-                      <img
-                        src={`http://localhost:8080/api/blog/${blog.picture}`}
-                        alt={`${blog.user_name || 'User'}'s profile`}
-                        className="user-picture"
-                        style={{
-                          width: '50px',
-                          height: '50px',
-                          borderRadius: '50%',
-                          objectFit: 'cover',
-                        }}
-                      />
-                      <p className="ml-3 font-medium">{blog.user_name}</p>
-                    </div>
-                    {/* Gambar responsif */}
                     <div className="max-w-[500px] max-h-[500px] w-auto h-auto aspect-square overflow-hidden rounded-lg mx-auto">
+                      <div className="flex items-center py-5">
+                        <img
+                          src={`http://localhost:8080/api/blog/${blog.picture}`}
+                          alt={`${blog.user_name || 'User'}'s profile`}
+                          className="user-picture"
+                          style={{
+                            width: '50px',
+                            height: '50px',
+                            borderRadius: '50%',
+                            objectFit: 'cover',
+                          }}
+                        />
+                        <p className="ml-3 font-medium">{blog.user_name}</p>
+                      </div>
+                    {/* Gambar responsif */}
                       <img
                         className="w-full h-full object-cover"
                         src={typeof blog.content === 'string' ? `http://localhost:8080/api/blog/${blog.content}` : ''}
                         alt="image description"
                       />
                     </div>
-
-                    <figcaption className="mt-2 text-sm text-left text-black-500 dark:text-black-500 line-clamp-2 py-5">
-                      <strong>{blog.user_name}</strong> {blog.caption}
+                    <figcaption className="max-w-[500px] max-h-[500px] py-5 mx-auto">
+                      <strong>{blog.user_name} </strong> {blog.caption}
                     </figcaption>
                   </figure>
                 )}
